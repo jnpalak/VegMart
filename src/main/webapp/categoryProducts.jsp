@@ -151,7 +151,10 @@
                       </div>
 
                       <div class="d-flex justify-content-between mt-3">
-                          <button class="btn cart-btn btn-sm w-50 me-2">Add to Cart</button>
+                         <a href="AddToCartServlet?vid=<%= veg.getVegetableId() %>"
+                            class="btn cart-btn btn-sm w-50 me-2">
+                               Add to Cart
+                         </a>
                           <button class="btn price-btn btn-sm w-50">
                               &#8377;<%= veg.getPriceAfterDis() %>/-
                               <span class="discount-label" style="text-decoration: line-through;">
@@ -161,7 +164,9 @@
                                    <%= veg.getDiscount() %>% off
                               </span>
                           </button>
-                          </div>
+                      </div>
+
+
 
                   </div>
                 </div>
