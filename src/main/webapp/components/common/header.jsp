@@ -4,16 +4,11 @@
 <%@ page import="com.yash.vegmart.entity.CartItem" %>
 <%@ page import="com.yash.vegmart.utilities.CartUtils" %>
 
-<!-- BOOTSTRAP CSS (MOST IMPORTANT) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- BOOTSTRAP ICONS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-
+<link rel="stylesheet" href="components/common/bootstrap.css">
 <!-- BOOTSTRAP JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top p-3">
     <div class="container">
 
         <!-- Brand -->
@@ -40,7 +35,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="about.jsp">About</a>
+                    <a class="nav-link" href="#">About</a>
                 </li>
             </ul>
 
@@ -51,65 +46,66 @@
                        placeholder="Search vegetables...">
             </form>
 
-            <!-- RIGHT SIDE BUTTONS -->
-            <div class="d-flex align-items-center">
-                <%
-                    User user = (User) session.getAttribute("userObj");
+           <div class="d-flex align-items-center">
 
-                    if (user == null) {
-                %>
-                <!-- CART BUTTON -->
-                <button class="btn btn-outline-success btn-sm me-3"
-                        data-bs-toggle="modal" data-bs-target="#cartModal">
-                    <i class="bi bi-cart3"></i> Cart
-                    <span class="badge bg-success" id="cartCount">
-                        <%= (session.getAttribute("cart") == null)
-                                ? 0
-                                : ((java.util.Map)session.getAttribute("cart")).size() %>
-                    </span>
-                </button>
-                    <a href="login.jsp" class="btn btn-outline-success btn-sm me-2 px-3">Login</a>
-                    <a href="register.jsp" class="btn btn-success btn-sm px-3">Sign Up</a>
+               <!-- CART BUTTON (Always Visible) -->
+               <button class="btn btn-outline-success btn-sm me-3"
+                       data-bs-toggle="modal" data-bs-target="#cartModal" id="cartButtonNav">
+                   <i class="bi bi-cart3"></i> Cart
+                   <span class="badge bg-success" id="cartCount">
+                       <%= (session.getAttribute("cart") == null)
+                               ? 0
+                               : ((java.util.Map)session.getAttribute("cart")).size() %>
+                   </span>
+               </button>
 
-                <%
-                    } else if (user.getUserType().equals("admin")) {
-                %>
+               <%
+                   User user = (User) session.getAttribute("userObj");
 
-                <div class="dropdown">
-                    <button class="btn btn-outline-success btn-sm dropdown-toggle px-3"
-                            data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle"></i> <%= user.getName() %>
-                    </button>
+                   if (user == null) {
+               %>
 
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="admin.jsp">Admin Dashboard</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
-                    </ul>
-                </div>
+                   <a href="login.jsp" class="btn btn-outline-success btn-sm me-2 px-3">Login</a>
+                   <a href="register.jsp" class="btn btn-outline-success btn-sm  me-2 px-3">Sign Up</a>
 
-                <%
-                    } else {
-                %>
+               <%
+                   } else if (user.getUserType().equals("admin")) {
+               %>
 
-                <div class="dropdown">
-                    <button class="btn btn-outline-success btn-sm dropdown-toggle px-3"
-                            data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle"></i> <%= user.getName() %>
-                    </button>
+               <div class="dropdown">
+                   <button class="btn btn-outline-success btn-sm dropdown-toggle px-3" data-bs-toggle="dropdown">
+                       <i class="bi bi-person-circle"></i> <%= user.getName() %>
+                   </button>
 
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="profile.jsp">My Profile</a></li>
-                        <li><a class="dropdown-item" href="orders.jsp">My Orders</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
-                    </ul>
-                </div>
+                   <ul class="dropdown-menu dropdown-menu-end">
+                       <li><a class="dropdown-item" href="admin.jsp">Admin Dashboard</a></li>
+                       <li><hr class="dropdown-divider"></li>
+                       <li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
+                   </ul>
+               </div>
 
-                <%
-                    }
-                %>
-            </div>
+               <%
+                   } else {
+               %>
+
+               <div class="dropdown">
+                   <button class="btn btn-outline-success btn-sm dropdown-toggle px-3" data-bs-toggle="dropdown">
+                       <i class="bi bi-person-circle"></i> <%= user.getName() %>
+                   </button>
+
+                   <ul class="dropdown-menu dropdown-menu-end">
+                       <li><a class="dropdown-item" href="profile.jsp">My Profile</a></li>
+                       <li><a class="dropdown-item" href="orders.jsp">My Orders</a></li>
+                       <li><hr class="dropdown-divider"></li>
+                       <li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
+                   </ul>
+               </div>
+
+               <%
+                   }
+               %>
+
+           </div>
 
         </div>
     </div>
@@ -153,17 +149,17 @@
 
           <tbody>
           <% for (CartItem item : cart1.values()) { %>
-            <tr>
+            <tr id="row_<%= item.getVegetableId() %>">
               <td><%= item.getName() %></td>
               <td>₹ <%= item.getPrice() %></td>
               <td id="qty_<%= item.getVegetableId()%>"><%= item.getQuantity() %></td>
               <td id="total_<%= item.getVegetableId()%>">₹ <%= item.getTotalPrice() %></td>
 
               <td>
-                <form action="RemoveFromCartServlet" method="post">
-                  <input type="hidden" name="vid" value="<%= item.getVegetableId() %>">
-                  <button class="btn btn-danger btn-sm">Remove</button>
-                </form>
+                <button class="btn btn-danger btn-sm"
+                        onclick="removeItem(<%= item.getVegetableId() %>)">
+                    Remove
+                </button>
               </td>
               <td>
                   <button class="btn btn-success btn-sm" onclick="updateQty(<%= item.getVegetableId() %>, 'inc')">+</button>
@@ -183,13 +179,35 @@
 
       </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <% if (!cart1.isEmpty()) { %>
-            <a href="checkout.jsp" class="btn btn-success">Checkout</a>
-        <% } %>
-      </div>
+      <div class="modal-footer d-flex justify-content-center">
 
+          <% User u = (User) session.getAttribute("userObj"); %>
+
+          <% if (u == null) { %>
+
+              <!-- NOT LOGGED IN: BOTH BUTTONS CENTER + LOGIN MESSAGE -->
+              <div class="d-flex align-items-center gap-3">
+                  <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                  <button class="btn btn-success" disabled>Checkout</button>
+
+                  <span class="text-danger fw-bold">Please login First </span>
+              </div>
+
+          <% } else { %>
+
+              <!-- LOGGED IN: BOTH BUTTONS CENTER -->
+              <div class="d-flex align-items-center gap-3">
+                  <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                  <% if (!cart1.isEmpty()) { %>
+                      <a href="checkout.jsp" class="btn btn-success">Checkout</a>
+                  <% } %>
+              </div>
+
+          <% } %>
+
+      </div>
     </div>
   </div>
 </div>
@@ -223,5 +241,35 @@ function updateQty(id, actionType) {
     })
 
     .catch(err => console.log("Error updating quantity:", err));
+}
+function removeItem(id) {
+    fetch('/VegMartV1/RemoveFromCartServlet', {
+        method: 'POST',
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "vid=" + id
+    })
+    .then(res => res.text())
+    .then(data => {
+        let parts = data.split(",");
+        let newGrandTotal = parts[0];
+        let newCartCount = parts[1];
+
+        // Remove the row from table
+        let row = document.getElementById("row_" + id);
+        if (row) row.remove();
+
+        // Update grand total
+        document.getElementById("grandTotal").innerText = newGrandTotal;
+
+        // Update cart count
+        document.getElementById("cartCount").innerText = newCartCount;
+
+        // If cart becomes empty, show empty message
+        if (newCartCount == 0) {
+            document.querySelector(".modal-body").innerHTML =
+                "<p class='text-center text-muted fs-5'>Your cart is empty.</p>";
+        }
+    })
+    .catch(err => console.log("Remove error:", err));
 }
 </script>
