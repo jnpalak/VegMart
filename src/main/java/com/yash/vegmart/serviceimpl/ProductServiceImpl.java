@@ -5,6 +5,8 @@ import com.yash.vegmart.entity.Category;
 import com.yash.vegmart.entity.Vegetable;
 import com.yash.vegmart.service.ProductService;
 
+import java.util.List;
+
 public class ProductServiceImpl implements ProductService {
 
     private ProductDAO productDAO = new ProductDAOImpl();
@@ -18,4 +20,23 @@ public class ProductServiceImpl implements ProductService {
     public boolean saveProduct(Vegetable veg) {
         return productDAO.saveProduct(veg);
     }
+    @Override
+    public List<Vegetable> getAllProducts() {
+        return productDAO.getAllProducts();
+    }
+    @Override
+    public List<Vegetable> getProductsByCategory(int categoryId) {
+        return productDAO.getProductsByCategory(categoryId);
+    }
+    @Override
+    public Vegetable getProductById(int id) {
+        return productDAO.getProductById(id);
+    }
+    @Override
+    public void updateProduct(Vegetable v) {
+        productDAO.updateProduct(v);
+    }
+
+
+
 }
