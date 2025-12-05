@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.List;
+
 public class UserDAOImpl implements UserDAO {
 
     @Override
@@ -50,4 +52,37 @@ public class UserDAOImpl implements UserDAO {
         }
         return user;
     }
+    @Override
+    public List<User> getAllUsers() {
+        List<User> list=null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            list = session.createQuery("from User").list();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    @Override
+    public boolean deleteUser(int userId) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            User u = session.get(User.class, userId);
+            if (u != null && u.getUserType().equals("normal")) {
+                session.delete(u);
+                tx.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
