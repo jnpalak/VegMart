@@ -5,6 +5,8 @@ import com.yash.vegmart.daoimpl.UserDAOImpl;
 import com.yash.vegmart.entity.User;
 import com.yash.vegmart.service.UserService;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
@@ -26,5 +28,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User loginUser(String email, String password) {
         return userDAO.validateUser(email, password);
+    }
+    @Override
+    public List<User> getAllUsers()
+    {
+        return userDAO.getAllUsers();
+    }
+
+    @Override
+    public boolean deleteUser(int uid) {
+        return userDAO.deleteUser(uid);
     }
 }
