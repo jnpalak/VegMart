@@ -13,6 +13,15 @@ public class Category {
     @Column(length = 1000)
     private String categoryDescription;
     private String categoryName;
+    private String cImage;
+
+    public String getcImage() {
+        return cImage;
+    }
+
+    public void setcImage(String cImage) {
+        this.cImage = cImage;
+    }
 
     @OneToMany(mappedBy = "category")
     private List<Vegetable> vegetables;
