@@ -1,10 +1,8 @@
-<%@ include file="components/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>VegMart | Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
         body {
             background: #eaffea;
@@ -40,11 +38,27 @@
             height: 45px;
             border-radius: 8px;
         }
+        #cardModal
+        {
+         position :fixed !important;
+         top :0 !important;
+         left:0 !important;
+         width : 100% !important;
+         z-index:9999 !important;
+         }
+         #cartButtonNav
+         {
+         display:flex;
+         align-items:center;
+         justify-content: center;
+         gap:5px;
+         }
     </style>
 </head>
 
-<body>
-
+<body style="background:#eaffea;">
+<%@ include file="components/common/header.jsp" %>
+<div>
 <div class="login-card">
 
     <h2 class="title">Welcome Back</h2>
@@ -92,6 +106,7 @@
 
     </form>
 </div>
-
+</div>
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
