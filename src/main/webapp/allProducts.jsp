@@ -8,12 +8,11 @@
 <head>
     <meta charset="UTF-8">
     <title>VegMart | All Vegetables</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            background: #eaffea;
+            background: #eaffea !important;
             font-family: 'Segoe UI', sans-serif;
         }
         .product-card {
@@ -129,6 +128,7 @@
 
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 function toggleDesc(i) {
@@ -147,6 +147,6 @@ function toggleDesc(i) {
     }
 }
 </script>
-
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
