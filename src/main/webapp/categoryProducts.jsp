@@ -15,7 +15,7 @@
 <head>
     <meta charset="UTF-8">
     <title>VegMart | Category Products</title>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -51,7 +51,7 @@
             background: white;
             border-radius: 12px;
             padding: 18px;
-            min-height: 420px;    /* instead of fixed height */
+            min-height: 460px;    /* instead of fixed height */
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
             transition: 0.3s;
             display: flex;
@@ -126,6 +126,13 @@
         <div class="col-md-9">
             <h3 class="fw-bold text-success mb-4"><%= currentCategory.getCategoryName() %></h3>
 
+            <% if (vegList == null || vegList.isEmpty()) { %>
+                <div class="no-products">
+                    <i class="fas fa-box-open"></i>
+                    <h4>No products available</h4>
+                    <p>This category currently has no products. Please check back later or browse other categories.</p>
+                </div>
+            <% } else { %>
             <div class="row g-4">
 
                 <% int index = 0;
@@ -174,6 +181,7 @@
                 <% index++; } %>
 
             </div>
+            <% } %>
         </div>
 
     </div>
@@ -198,5 +206,6 @@
     }
 </script>
 </div>
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
