@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean emailExists(String email) {
-        return userDAO.emailExist(email);
+        return userDAO.emailExists(email);
     }
 
     @Override
@@ -38,5 +38,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteUser(int uid) {
         return userDAO.deleteUser(uid);
+    }
+    @Override
+   public  boolean updateUser(User user)
+    {
+        return userDAO.updateUser(user);
+    }
+
+    @Override
+    public Integer save(User user)
+    {
+        return userDAO.save(user);
+    }
+    @Override
+    public User getUserById(int adminId)
+    {
+         return userDAO.getUserById(adminId);
+    }
+    @Override
+    public  boolean deleteAdmin(int adminId)
+    {
+        return userDAO.deleteAdmin(adminId);
     }
 }
