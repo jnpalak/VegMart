@@ -11,8 +11,7 @@
 
 <head>
     <title>VegMart – Fresh Vegetables Delivered Fast</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         body {
@@ -75,7 +74,7 @@
         <div>
             <h1 class="fw-bold display-5">Fresh Vegetables Delivered to Your Door</h1>
             <p class="lead mt-3">Farm-fresh, handpicked & delivered within minutes.</p>
-            <a href="viewProducts.jsp" class="btn btn-light btn-lg px-4">
+            <a href="allproducts" class="btn btn-light btn-lg px-4">
                 Shop Now
             </a>
         </div>
@@ -117,7 +116,7 @@
 
         <div class="col-md-3 mb-4">
             <div class="card p-3 veg-card">
-                <img src="product-img/<%= v.getpImage() %>" height="130" class="rounded">
+                <img src="img/Products/<%= v.getpImage() %>" height="130" class="rounded">
                 <h5 class="mt-2"><%= v.getName() %></h5>
                 <p class="text-success fw-bold">₹ <%= v.getPrice() %></p>
                 <span class="badge bg-danger">Save <%= v.getDiscount() %>%</span>
@@ -137,7 +136,7 @@
 
         <div class="col-md-3 mb-4">
             <div class="card p-3 veg-card">
-                <img src="product-img/<%= v.getpImage() %>" height="130">
+                <img src="img/Products/<%= v.getpImage() %>" height="130">
                 <h6 class="mt-2"><%= v.getName() %></h6>
                 <p class="text-muted">Fresh stock added today</p>
             </div>
@@ -146,6 +145,7 @@
         <% } %>
 </div>
 </div>
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
 
