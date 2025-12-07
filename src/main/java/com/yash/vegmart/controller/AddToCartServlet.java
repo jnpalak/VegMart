@@ -57,8 +57,7 @@ public class AddToCartServlet extends HttpServlet {
                     veg.getpImage(),
                     unitPrice,
                     qty,
-                    veg.getQuantityInStock()
-            );
+                    veg.getQuantityInStock());
             cart.put(vid, item);
         }
 
