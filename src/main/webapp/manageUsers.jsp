@@ -72,16 +72,16 @@
             </thead>
 
             <tbody>
-            <% for (User u : users) { %>
+            <% for (User u1 : users) { %>
                 <tr>
-                    <td><%= u.getName() %></td>
-                    <td><%= u.getEmail() %></td>
-                    <td><%= u.getMobile() %></td>
-                    <td><%= u.getAddress() %></td>
+                    <td><%= u1.getName() %></td>
+                    <td><%= u1.getEmail() %></td>
+                    <td><%= u1.getMobile() %></td>
+                    <td><%= u1.getAddress() %></td>
 
                     <td>
                         <form action="DeleteUserServlet" method="post">
-                            <input type="hidden" name="uid" value="<%= u.getUserId() %>">
+                            <input type="hidden" name="uid" value="<%= u1.getUserId() %>">
                             <button class="btn-delete">Delete</button>
                         </form>
                     </td>
@@ -89,7 +89,9 @@
             <% } %>
             </tbody>
         </table>
-
+<div class="d-flex justify-content-center mt-3">
+<a href="javascript:history.back()" class="btn btn-outline-success " style="width:30%;"> Back </a></div>
+    </div>
     </div>
 </div>
 </div>
