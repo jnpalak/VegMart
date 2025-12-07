@@ -121,11 +121,15 @@
                     </td>
                 </tr>
             <% } %>
+
             </tbody>
         </table>
-
+        <div class="d-flex justify-content-center mt-3">
+<a href="javascript:history.back()" class="btn btn-outline-success " style="width:50%;"> Back </a></div>
     </div>
 </div>
 </div>
+
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
