@@ -36,6 +36,21 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(Vegetable v) {
         productDAO.updateProduct(v);
     }
+    @Override
+    public boolean updateProductAdmin(Vegetable oldProduct)
+    {
+        return productDAO.updateProductAdmin(oldProduct);
+    }
+    @Override
+    public boolean updateDiscount(int pid, int discount)
+    {
+        return productDAO.updateDiscount(pid,discount);
+    }
+    @Override
+     public  boolean deleteProduct(int pid)
+    {
+        return productDAO.deleteProduct(pid);
+    }
 
 
 
