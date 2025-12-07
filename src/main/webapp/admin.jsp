@@ -17,8 +17,10 @@ if (loggedUser == null) {
     }
 }
 %>
-<%@ include file="components/header.jsp" %>
-
+<%
+     CategoryService cs= new CategoryServiceImpl();
+     List<Category> catList = cs.getCategory();
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +31,7 @@ if (loggedUser == null) {
 
     <style>
         body {
-            background-color: #f8fbf7;
+            background-color: #eaffea;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             min-height: 100vh;
@@ -166,29 +168,15 @@ if (loggedUser == null) {
     </style>
 </head>
 <body>
+<%@ include file="components/common/header.jsp" %>
+<div style="background:#eaffea; min-height:100vh; padding-top:10px;">
 
-<body style="background:#f5f7fa; font-family: 'Segoe UI', sans-serif;">
-
-<!-- TOP NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background:#2e7d32;">
-    <div class="container-fluid px-4">
-        <a class="navbar-brand fw-bold text-white">VegMart Admin</a>
-
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <span class="nav-link text-white fw-bold">
-                    <i class="fa fa-user-circle me-1"></i> Admin
-                </span>
-            </li>
-        </ul>
-    </div>
-</nav>
 
 <!-- SIDEBAR + CONTENT WRAPPER -->
 <div class="d-flex">
 
     <!-- SIDEBAR -->
-    <div style="width:230px; background:#1b5e20; min-height:100vh; padding:20px 0;">
+    <div style="width:230px; background:#1b5e20; min-height:120vh; padding:20px 0;">
 
         <ul class="nav flex-column px-3">
             <li class="nav-item mb-3">
@@ -198,14 +186,14 @@ if (loggedUser == null) {
             </li>
 
             <li class="nav-item mb-3">
-                <a href="addProduct.jsp" class="nav-link text-white" >
+                <a href="#" class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#add-product-modal">
                     <i class="fa fa-plus-square me-2"></i> Add Product
                 </a>
             </li>
 
             <li class="nav-item mb-3">
-                <a href="manageCategories.jsp" class="nav-link text-white">
-                    <i class="fa fa-list me-2"></i> Category
+                <a href="#" class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#add-category-modal">
+                    <i class="fa fa-list me-2"></i> Add Category
                 </a>
             </li>
 
@@ -216,7 +204,7 @@ if (loggedUser == null) {
             </li>
 
             <li class="nav-item mb-3">
-                <a href="orders.jsp" class="nav-link text-white">
+                <a href="admin_orders.jsp" class="nav-link text-white">
                     <i class="fa fa-shopping-bag me-2"></i> Orders
                 </a>
             </li>
@@ -231,6 +219,17 @@ if (loggedUser == null) {
                 <a href="addAdmin.jsp" class="nav-link text-white">
                     <i class="fa fa-user-plus me-2"></i> Add Admin
                 </a>
+            </li>
+            <li class="nav-item mb-3">
+               <a href="profile.jsp" class="nav-link text-white">
+                 <i class="fa fa-user-circle me-2"></i> Profile
+                </a>
+            </li>
+
+            <li class="nav-item mb-3">
+                <a href="LogoutServlet" class="nav-link text-white">
+                  <i class="fa fa-sign-out me-2"></i> Logout
+                 </a>
             </li>
         </ul>
     </div>
@@ -275,7 +274,7 @@ if (loggedUser == null) {
 
             <!-- ORDERS -->
             <div class="col-md-4">
-                <a href="orders.jsp" class="text-decoration-none">
+                <a href="admin_orders.jsp" class="text-decoration-none">
                     <div class="card shadow-sm p-4 text-center dash-card">
                         <i class="fa fa-shopping-cart fa-3x mb-2" style="color:#43a047;"></i>
                         <h5 class="fw-bold text-dark">Orders</h5>
@@ -292,6 +291,16 @@ if (loggedUser == null) {
                     </div>
                 </a>
             </div>
+
+             <!-- Add Admin -->
+                        <div class="col-md-4">
+                            <a href="addAdmin.jsp" class="text-decoration-none">
+                                <div class="card shadow-sm p-4 text-center dash-card">
+                                    <i class="fa fa-user-plus fa-3x mb-2" style="color:#43a047;"></i>
+                                    <h5 class="fw-bold text-dark">Add Admin</h5>
+                                </div>
+                            </a>
+                        </div>
 
         </div>
 
@@ -321,7 +330,7 @@ if (loggedUser == null) {
       </div>
 
       <div class="modal-body" >
-         <form action="AddCategoryServlet" method="POST">
+         <form action="AddCategoryServlet" method="POST" enctype="multipart/form-data">
            <div class="form-group">
             <input type="text" class="form-control" name="catTitle" placeholder="Enter category title" required/>
             </div>
@@ -330,6 +339,8 @@ if (loggedUser == null) {
             <textarea style="height : 250px" class="form-control" name="catDescription" placeholder="Enter category description" required></textarea>
             </div>
             <br>
+             <input class="form-control" type="file" name="cImage" accept="image/*" required>
+             <br>
             <div class="container text-center">
               <button type="submit" class="btn btn-outline-success" name="submit">Add Category</button>
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -360,10 +371,7 @@ if (loggedUser == null) {
             <textarea style="height : 150px" class="form-control" name="proDescription" placeholder="Enter description" required></textarea>
             </div>
             <br>
-            <%
-            CategoryService cs= new CategoryServiceImpl();
-            List<Category> catList = cs.getCategory();
-            %>
+
 
             <select class="form-select" class="form-control" name="categoryOption" required>
               <option value="" selected>Select Category</option>
@@ -391,7 +399,8 @@ if (loggedUser == null) {
             <input class="form-control" type="file" name="pPic" accept="image/*" required>
              <br>
             <div class="container text-center">
-             <button class="btn btn-outline-primary">Submit</button>
+             <button class="btn btn-outline-success">Submit</button>&nbsp;&nbsp;
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
              </div>
          </form>
       </div>
@@ -399,5 +408,5 @@ if (loggedUser == null) {
     </div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</div>
