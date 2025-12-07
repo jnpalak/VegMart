@@ -46,8 +46,8 @@ public class LoginServlet extends HttpServlet
             }
         }
         else {
-            request.setAttribute("errorMsg","Invalid email or Password");
-            request.getRequestDispatcher("login.jsp").forward(request,response);
+            session.setAttribute("error","Invalid email or Password");
+            response.sendRedirect("login.jsp");
         }
     }
     }
