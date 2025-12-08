@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="components/header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,11 +39,27 @@
         textarea {
             border-radius: 8px !important;
         }
+        #cardModal
+         {
+            position :fixed !important;
+            top :0 !important;
+            left:0 !important;
+            width : 100% !important;
+            z-index:9999 !important;
+         }
+         #cartButtonNav
+          {
+            display:flex;
+            align-items:center;
+            justify-content: center;
+            gap:5px;
+          }
     </style>
 </head>
 
 <body>
-
+<%@ include file="components/common/header.jsp" %>
+<div style="background:#eaffea; min-height:100vh; padding-top:10px;">
 <div class="container">
     <div class="register-card">
 
@@ -105,7 +120,8 @@
         </form>
     </div>
 </div>
-
+</div>
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
 
