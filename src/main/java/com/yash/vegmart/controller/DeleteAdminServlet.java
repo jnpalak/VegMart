@@ -29,11 +29,7 @@ public class DeleteAdminServlet extends HttpServlet {
 
         UserService userService = new UserServiceImpl();
 
-        // Fetch admin object (you might already have a method, if not I’ll help)
-
         User admin = userService.getUserById(adminId);
-
-        // Safety check – don't allow deleting normal users through admin delete
 
         if (admin != null && admin.getUserType().equals("admin")) {
 
