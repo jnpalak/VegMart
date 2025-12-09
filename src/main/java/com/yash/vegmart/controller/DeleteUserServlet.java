@@ -14,8 +14,14 @@ public class DeleteUserServlet extends HttpServlet {
 
         int uid = Integer.parseInt(req.getParameter("uid"));
         UserService us = new UserServiceImpl();
-        us.deleteUser(uid);
-
-        resp.sendRedirect("manageUsers.jsp");
+        boolean deleted=us.deleteUser(uid);
+        if (deleted) {
+            req.setAttribute("message", "User deleted successfully!");
+            req.setAttribute("messageType", "success");
+        } else {
+            req.setAttribute("message", "Delete failed - only normal users can be deleted!");
+            req.setAttribute("messageType", "danger");
+        }
+        req.getRequestDispatcher("manageUsers.jsp").forward(req, resp);
     }
 }
