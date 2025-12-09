@@ -23,7 +23,7 @@ public class AddToCartServlet extends HttpServlet {
         // accept vid (vegetable id) and optional qty
         String vidStr = req.getParameter("vid");
         String qtyStr = req.getParameter("qty");
-
+        HttpSession session = req.getSession();
         if (vidStr == null) {
             resp.sendRedirect(req.getHeader("referer") != null ? req.getHeader("referer") : "products.jsp");
             return;
@@ -33,13 +33,17 @@ public class AddToCartServlet extends HttpServlet {
         int qty = 1;
         try { if (qtyStr != null) qty = Math.max(1, Integer.parseInt(qtyStr)); } catch (Exception ignored) {}
 
-        Vegetable veg = productService.getProductById(vid); // implement this method in ProductService if not present
+        Vegetable veg = productService.getProductById(vid);
         if (veg == null) {
             resp.sendRedirect(req.getHeader("referer") != null ? req.getHeader("referer") : "products.jsp");
             return;
         }
+        if (veg.getQuantityInStock() <= 0) {
+            session.setAttribute("error", "This product is out of stock!");
+            resp.sendRedirect("categoryProducts.jsp?pid=" + vidStr);
+            return;
+        }
 
-        HttpSession session = req.getSession();
         Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
         if (cart == null) {
             cart = new HashMap<>();
@@ -64,13 +68,10 @@ public class AddToCartServlet extends HttpServlet {
         session.setAttribute("cart", cart);
         session.setAttribute("cartCount", CartUtils.getTotalItems(cart));
         session.setAttribute("cartTotal", CartUtils.getCartTotal(cart));
-
-        // if add from AJAX you might respond differently; here we redirect back
         String referer = req.getHeader("referer");
         resp.sendRedirect(referer != null ? referer : "products.jsp");
     }
-
-    // You may prefer to accept POST; doGet is included for simple link-based adds
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
