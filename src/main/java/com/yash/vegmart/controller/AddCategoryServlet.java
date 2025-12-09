@@ -55,7 +55,6 @@ public class AddCategoryServlet extends HttpServlet {
         boolean success = categoryService.addCategory(category);
 
         HttpSession session = req.getSession();
-
         if (success) {
             session.setAttribute("catMsg", "Category Added Successfully!");
 
