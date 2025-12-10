@@ -51,7 +51,11 @@ public class ProductServiceImpl implements ProductService {
     {
         return productDAO.deleteProduct(pid);
     }
-
+    @Override
+    public List<Vegetable> searchVegetables(String keyword)
+    {
+        return productDAO.searchVegetables(keyword);
+    }
 
 
 }
