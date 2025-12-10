@@ -84,7 +84,7 @@
 <label class="fw-bold">Product Image</label>
 <div class="mb-3">
 <img src="img/Products/<%= product.getpImage() %>" class="prod-img mb-2">
-<input type="file" name="image" class="form-control" required>
+<input type="file" name="image" class="form-control">
 </div>
 
 
