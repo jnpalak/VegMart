@@ -95,6 +95,49 @@
           font-style : italic !important;
           color: white !important;
         }
+        .out-container {
+
+                   position: relative;
+
+               }
+
+               .out-of-stock-img {
+
+                   opacity: 0.35;
+
+                   filter: grayscale(100%);
+
+               }
+               .disabled-btn {
+                   background: #9e9e9e !important;
+                   color: white !important;
+                   pointer-events: none;
+                   border: none;
+               }
+
+               .out-stock-label {
+
+                   position: absolute;
+
+                   top: 50%;
+
+                   left: 50%;
+
+                   transform: translate(-50%, -50%);
+
+                   background: rgba(220, 53, 69, 0.9);
+
+                   color: white;
+
+                   padding: 6px 14px;
+
+                   border-radius: 8px;
+
+                   font-size: 14px;
+
+                   font-weight: bold;
+
+               }
     </style>
 </head>
 
@@ -144,7 +187,15 @@
                 <div class="col-md-4">
                   <div class="product-card">
 
-                      <img src="img/Products/<%= veg.getpImage() %>" class="product-img">
+          <!-- IMAGE WITH OUT OF STOCK EFFECT -->
+      <div class="out-container">
+      <img src="img/Products/<%= veg.getpImage() %>"
+                   class="product-img <%= (veg.getQuantityInStock() <= 0) ? "out-of-stock-img" : "" %>">
+
+              <% if (veg.getQuantityInStock() <= 0) { %>
+      <span class="out-stock-label">OUT OF STOCK</span>
+      <% } %>
+      </div>
 
                       <div>
                           <h6 class="fw-bold mt-2"><%= veg.getName() %></h6>
@@ -156,12 +207,21 @@
                               Read More
                           </p>
                       </div>
+      <!-- BUTTON SECTION -->
+      <div class="d-flex justify-content-between mt-3">
 
-                      <div class="d-flex justify-content-between mt-3">
-                         <a href="AddToCartServlet?vid=<%= veg.getVegetableId() %>"
-                            class="btn cart-btn btn-sm w-50 me-2">
-                               Add to Cart
-                         </a>
+              <% if (veg.getQuantityInStock() <= 0) { %>
+
+                  <button class="btn disabled-btn btn-sm w-50 me-2">Add to Cart</button>
+
+              <% } else { %>
+
+                  <a href="AddToCartServlet?vid=<%= veg.getVegetableId() %>"
+                     class="btn cart-btn btn-sm w-50 me-2">
+                      Add to Cart
+      </a>
+
+              <% } %>
                           <button class="btn price-btn btn-sm w-50">
                               &#8377;<%= veg.getPriceAfterDis() %>/-
                               <span class="discount-label" style="text-decoration: line-through;">
