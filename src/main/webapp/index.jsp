@@ -58,6 +58,45 @@
             border-radius: 14px;
             transition: 0.3s;
         }
+       .out-container {
+
+           position: relative;
+
+       }
+
+       .out-of-stock-img {
+
+           opacity: 0.35;
+
+           filter: grayscale(100%);
+
+       }
+
+       .out-stock-label {
+
+           position: absolute;
+
+           top: 50%;
+
+           left: 50%;
+
+           transform: translate(-50%, -50%);
+
+           background: rgba(220, 53, 69, 0.9);
+
+           color: white;
+
+           padding: 6px 14px;
+
+           border-radius: 8px;
+
+           font-size: 14px;
+
+           font-weight: bold;
+
+       }
+
+
 
     </style>
 </head>
@@ -99,51 +138,93 @@
   </div>
   <% } %>
 </div>
-    <!-- TODAY'S OFFERS -->
+    <!-- TODAY’S OFFERS -->
     <h2 class="section-title">Today’s Offers</h2>
     <div class="row mt-3">
 
-        <%
-            ProductService ps = new ProductServiceImpl();
-            List<Vegetable> vegList = ps.getAllProducts();
-        %>
+    <%
 
-        <% int count = 0;
-           for (Vegetable v : vegList) {
-               if (count == 4) break;  // only show first 4 offers
-               count++;
-        %>
+        ProductService ps = new ProductServiceImpl();
 
-        <div class="col-md-3 mb-4">
-            <div class="card p-3 veg-card">
-                <img src="img/Products/<%= v.getpImage() %>" height="130" class="rounded">
-                <h5 class="mt-2"><%= v.getName() %></h5>
-                <p class="text-success fw-bold">₹ <%= v.getPrice() %></p>
-                <span class="badge bg-danger">Save <%= v.getDiscount() %>%</span>
-            </div>
-        </div>
+        List<Vegetable> vegList = ps.getAllProducts();
 
-        <% } %>
+        int count = 0;
 
+        for (Vegetable v : vegList) {
+
+            if (count == 4) break;
+
+            count++;
+
+    %>
+
+    <div class="col-md-3 mb-4">
+    <div class="card p-3 veg-card">
+
+            <!-- IMAGE BOX WITH OUT OF STOCK OVERLAY -->
+    <div class="out-container">
+    <img src="img/Products/<%= v.getpImage() %>"
+     class="product-img <%= (v.getQuantityInStock() <= 0) ? "out-of-stock-img" : "" %>"
+     style="height:150px; width:100%; object-fit:cover; border-radius:10px;">
+    <% if (v.getQuantityInStock() <= 0) { %>
+    <span class="out-stock-label">OUT OF STOCK</span>
+    <% } %>
     </div>
 
+            <!-- PRODUCT NAME -->
+    <h5 class="mt-3 fw-bold"><%= v.getName() %></h5>
+
+            <!-- PRICE -->
+    <p class="text-success fw-bold">₹ <%= v.getPrice() %>/kg</p>
+
+            <!-- DISCOUNT BAND -->
+    <span class="badge bg-danger">Save <%= v.getDiscount() %>%</span>
+
+        </div>
+    </div>
+
+    <%
+
+        }
+    %>
+
+    </div>
 
     <!-- FRESHLY ARRIVED -->
     <h2 class="section-title">Freshly Arrived Today</h2>
     <div class="row mt-3">
 
-        <% for (Vegetable v : vegList) { %>
+    <% for (Vegetable v : vegList) { %>
 
-        <div class="col-md-3 mb-4">
-            <div class="card p-3 veg-card">
-                <img src="img/Products/<%= v.getpImage() %>" height="130">
-                <h6 class="mt-2"><%= v.getName() %></h6>
-                <p class="text-muted">Fresh stock added today</p>
-            </div>
+    <div class="col-md-3 mb-4">
+    <div class="card p-3 veg-card">
+
+            <!-- IMAGE WITH OUT OF STOCK EFFECT -->
+    <div class="out-container">
+    <img src="img/Products/<%= v.getpImage() %>"
+
+                     style="height:150px; width:100%; object-fit:cover; border-radius:10px;"
+
+                     class="product-img <%= (v.getQuantityInStock() <= 0) ? "out-of-stock-img" : "" %>">
+
+                <% if (v.getQuantityInStock() <= 0) { %>
+    <span class="out-stock-label">OUT OF STOCK</span>
+    <% } %>
+    </div>
+
+            <!-- PRODUCT TITLE -->
+    <h6 class="mt-3 fw-bold"><%= v.getName() %></h6>
+
+            <!-- SUBTEXT -->
+    <p class="text-muted">Fresh stock added today</p>
+
         </div>
+    </div>
 
-        <% } %>
-</div>
+    <% } %>
+
+    </div>
+
 </div>
 <%@ include file="components/common/footer.jsp" %>
 </body>
