@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAOImpl implements ProductDAO
@@ -18,7 +19,6 @@ public class ProductDAOImpl implements ProductDAO
         Category cat=null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             cat=session.get(Category.class,id);
-
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -80,7 +80,6 @@ public class ProductDAOImpl implements ProductDAO
         Vegetable cat=null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             cat=session.get(Vegetable.class,id);
-
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -99,4 +98,92 @@ public class ProductDAOImpl implements ProductDAO
             e.printStackTrace();
         }
     }
+    @Override
+    public boolean updateProductAdmin(Vegetable oldProduct)
+    {
+        boolean success=false;
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.update(oldProduct);
+            tx.commit();
+            success=true;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
+    @Override
+    public boolean updateDiscount(int pid, int discount)
+    {
+        boolean result = false;
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            Vegetable v = session.get(Vegetable.class, pid);
+            if (v != null) {
+                v.setDiscount(discount);
+                session.update(v);
+                tx.commit();
+                result = true;
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            if (tx != null) tx.rollback();
+        }
+        return result;
+    }
+    @Override
+    public boolean deleteProduct(int productId)
+    {
+        Transaction tx = null;
+        boolean result = false;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            Vegetable veg = session.get(Vegetable.class, productId);
+            if (veg != null) {
+                session.delete(veg);
+                result = true;
+            }
+            tx.commit();
+        } catch (Exception e)
+        {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+        return result;
+
+    }
+    @Override
+
+    public List<Vegetable> searchVegetables(String keyword) {
+
+        List<Vegetable> list = new ArrayList<>();
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            String hql = "FROM Vegetable v WHERE v.name LIKE :key OR v.description LIKE :key";
+
+            Query<Vegetable> query = session.createQuery(hql, Vegetable.class);
+
+            query.setParameter("key", "%" + keyword + "%");
+
+            list = query.getResultList();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return list;
+
+    }
+
+
+
 }
