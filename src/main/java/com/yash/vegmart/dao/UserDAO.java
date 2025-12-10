@@ -8,11 +8,14 @@ public interface UserDAO {
 
     Integer save(User user);
 
-    boolean emailExist(String email);
+    boolean emailExists(String email);
 
     User validateUser(String email, String pass);
 
     List<User> getAllUsers();
 
     boolean deleteUser(int uid);
+    boolean deleteAdmin(int adminId);
+    boolean updateUser(User user);
+    User getUserById(int adminId);
 }
