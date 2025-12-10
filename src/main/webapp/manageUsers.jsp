@@ -80,15 +80,25 @@
                     <td><%= u1.getAddress() %></td>
 
                     <td>
+                    <% if ("normal".equals(u1.getUserType())) { %>
                         <form action="DeleteUserServlet" method="post">
                             <input type="hidden" name="uid" value="<%= u1.getUserId() %>">
                             <button class="btn-delete">Delete</button>
                         </form>
+                        <% } else { %>
+                        <span class="text-muted badge bg-success">Admin/Protected</span>
+                                    <% } %>
                     </td>
                 </tr>
             <% } %>
             </tbody>
         </table>
+        <% if (request.getAttribute("message") != null) { %>
+                        <div class="alert alert-<%= request.getAttribute("messageType") %> alert-dismissible fade show" role="alert">
+                            <%= request.getAttribute("message") %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    <% } %>
 <div class="d-flex justify-content-center mt-3">
 <a href="javascript:history.back()" class="btn btn-outline-success " style="width:30%;"> Back </a></div>
     </div>
