@@ -28,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean emailExist(String email) {
+    public boolean emailExists(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE email = :email", User.class);
             query.setParameter("email", email);
@@ -67,19 +67,83 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean deleteUser(int userId) {
         Transaction tx = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            tx = session.beginTransaction();
+
+            // 1. Delete OrderItems first (if any cascade issues)
+            int itemsDeleted = session.createQuery(
+                            "DELETE FROM OrderItem oi WHERE oi.order.user.userId = :userId")
+                    .setParameter("userId", userId)
+                    .executeUpdate();
+            System.out.println("Deleted " + itemsDeleted + " order items");
+
+            // 2. Delete Orders for this user
+            int ordersDeleted = session.createQuery(
+                            "DELETE FROM Order o WHERE o.user.userId = :userId")  // Fixed: o.user.userId
+                    .setParameter("userId", userId)
+                    .executeUpdate();
+            System.out.println("Deleted " + ordersDeleted + " orders for user " + userId);
+
+            // 3. Now delete the user
+            User u = session.get(User.class, userId);
+            if (u != null && "normal".equals(u.getUserType())) {
+                session.delete(u);
+                tx.commit();
+                return true;
+            } else {
+                tx.rollback();
+                return false;
+            }
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            User u = session.get(User.class, userId);
-            if (u != null && u.getUserType().equals("normal")) {
+            session.update(user);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        }
+        return false;
+    }
+    @Override
+    public User getUserById(int id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(User.class, id);
+        }
+    }
+    @Override
+    public boolean deleteAdmin(int adminId) {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            User u = session.get(User.class, adminId);
+            if (u != null && (u.getUserType().equals("admin") && !u.getEmail().equals("palakjain88277@gmail.com")))
+            {
                 session.delete(u);
                 tx.commit();
                 return true;
             }
             return false;
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
+            if (tx != null) tx.rollback();
             e.printStackTrace();
             return false;
         }
