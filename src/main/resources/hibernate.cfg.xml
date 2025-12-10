@@ -20,10 +20,6 @@
         <mapping class="com.yash.vegmart.entity.Order" />
         <mapping class="com.yash.vegmart.entity.OrderItem" />
         <mapping class="com.yash.vegmart.entity.Vegetable" />
-        <mapping class="com.yash.vegmart.dao.UserDAO" />
-        <mapping class="com.yash.vegmart.controller.RegistrationServlet" />
-        <mapping class="com.yash.vegmart.controller.LoginServlet" />
-
 
     </session-factory>
 </hibernate-configuration>
