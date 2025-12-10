@@ -4,9 +4,12 @@
 <%@ page import="com.yash.vegmart.entity.CartItem" %>
 <%@ page import="com.yash.vegmart.utilities.CartUtils" %>
 
-<link rel="stylesheet" href="components/common/bootstrap.css">
-<!-- BOOTSTRAP JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- BOOTSTRAP CSS (MOST IMPORTANT) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- BOOTSTRAP ICONS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top p-3">
     <div class="container">
@@ -31,18 +34,18 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="products.jsp">Vegetables</a>
+                    <a class="nav-link" href="allproducts">Vegetables</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="about.jsp">About</a>
                 </li>
             </ul>
 
             <!-- SEARCH -->
-            <form action="search" method="get" class="d-flex me-3">
+            <form action="searchProducts" method="get" class="d-flex me-3">
                 <input class="form-control form-control-sm"
-                       style="width:300px"
+                       style="width:300px" name="keyword"
                        placeholder="Search vegetables...">
             </form>
 
@@ -51,7 +54,7 @@
                <!-- CART BUTTON (Always Visible) -->
                <button class="btn btn-outline-success btn-sm me-3"
                        data-bs-toggle="modal" data-bs-target="#cartModal" id="cartButtonNav">
-                   <i class="bi bi-cart3"></i> Cart
+                   <i class="bi bi-cart"></i> Cart
                    <span class="badge bg-success" id="cartCount">
                        <%= (session.getAttribute("cart") == null)
                                ? 0
@@ -66,7 +69,7 @@
                %>
 
                    <a href="login.jsp" class="btn btn-outline-success btn-sm me-2 px-3">Login</a>
-                   <a href="register.jsp" class="btn btn-outline-success btn-sm  me-2 px-3">Sign Up</a>
+                   <a href="register.jsp" class="btn btn-outline-success btn-sm  me-2px-3">Sign Up</a>
 
                <%
                    } else if (user.getUserType().equals("admin")) {
@@ -152,7 +155,7 @@
             <tr id="row_<%= item.getVegetableId() %>">
               <td><%= item.getName() %></td>
               <td>₹ <%= item.getPrice() %></td>
-              <td id="qty_<%= item.getVegetableId()%>"><%= item.getQuantity() %></td>
+              <td id="qty_<%= item.getVegetableId()%>"><%= item.getQuantity() %> kg</td>
               <td id="total_<%= item.getVegetableId()%>">₹ <%= item.getTotalPrice() %></td>
 
               <td>
@@ -211,6 +214,7 @@
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function updateQty(id, actionType) {
     fetch(actionType === 'inc'
