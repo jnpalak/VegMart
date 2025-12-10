@@ -86,11 +86,11 @@ public class Vegetable {
     public void setCategory(Category category) {
         this.category = category;
     }
+
     public int getPriceAfterDis() {
         double discountAmount = this.getPrice() * (this.getDiscount() / 100.0);
         int price=(int) (this.getPrice()-discountAmount);
         return price;
-
     }
 
 
