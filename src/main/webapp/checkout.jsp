@@ -113,9 +113,9 @@
 <tr>
 <td><img src="img/Products/<%= ci.getImage() %>" width="60"></td>
 <td><%= ci.getName() %></td>
-<td>₹ <%= ci.getPrice() %></td>
-<td>[ <%= ci.getQuantity() %> ]</td>
-<td>₹ <%= ci.getTotalPrice() %></td>
+<td> &#8377;<%= ci.getPrice() %></td>
+<td> <%= ci.getQuantity() %> kg</td>
+<td>&#8377; <%= ci.getTotalPrice() %></td>
 </tr>
 <% } %>
 </tbody>
@@ -136,9 +136,9 @@
 <div class="address-box mb-3">
 <h5 class="summary-label mb-3">Delivery Address</h5>
 
-                <p><b><%= u.getName() %></b></p>
-<p><%= u.getAddress() %></p>
-<p>Mobile No: <%= u.getMobile() %></p>
+                <p><b><%= u3.getName() %></b></p>
+<p><%= u3.getAddress() %></p>
+<p>Mobile No: <%= u3.getMobile() %></p>
 
                 <a href="profile.jsp" class="text-primary fw-bold">Change Address</a>
 </div>
