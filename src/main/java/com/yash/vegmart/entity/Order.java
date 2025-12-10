@@ -22,7 +22,7 @@ public class Order {
     private double totalAmount;
     private String status;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true,fetch=FetchType.EAGER)
     private List<OrderItem> items;
 
     public Order() {}
