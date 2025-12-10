@@ -16,4 +16,11 @@ public interface ProductDAO
     Vegetable getProductById(int id);
 
     void updateProduct(Vegetable v);
+
+    boolean updateProductAdmin(Vegetable oldProduct);
+    boolean updateDiscount(int pid, int discount);
+
+    boolean deleteProduct(int pid);
+
+    List<Vegetable> searchVegetables(String keyword);
 }
