@@ -21,6 +21,9 @@ public class Order {
 
     private double totalAmount;
     private String status;
+    private String paymentMode;
+
+
 
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true,fetch=FetchType.EAGER)
     private List<OrderItem> items;
@@ -73,5 +76,13 @@ public class Order {
 
     public void setItems(List<OrderItem> items) {
         this.items = items;
+    }
+
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
     }
 }
