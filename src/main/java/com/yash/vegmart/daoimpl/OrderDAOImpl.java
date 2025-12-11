@@ -78,9 +78,12 @@ public class OrderDAOImpl implements OrderDAO {
             order.setUser(user);
             order.setOrderDate(new Date());
             order.setTotalAmount(totalAmount);
+            order.setPaymentMode(paymentMode);
+
             if(paymentMode.equals("ONLINE"))
             {
                 order.setStatus("Order Processing");
+
             }
             else {
                 order.setStatus("Order processing");
