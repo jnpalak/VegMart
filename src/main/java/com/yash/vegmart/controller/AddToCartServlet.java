@@ -1,5 +1,6 @@
 package com.yash.vegmart.controller;
 
+import com.yash.vegmart.entity.User;
 import com.yash.vegmart.entity.Vegetable;
 import com.yash.vegmart.entity.CartItem;
 import com.yash.vegmart.service.ProductService;
@@ -44,7 +45,7 @@ public class AddToCartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Extract and validate vegetable ID parameter
+
         String vidStr = req.getParameter("vid");
         String qtyStr = req.getParameter("qty");
         HttpSession session = req.getSession();
@@ -54,15 +55,20 @@ public class AddToCartServlet extends HttpServlet {
                     req.getHeader("referer") : "products.jsp");
             return;
         }
+        User users = (User) req.getSession().getAttribute("userObj");
 
-        // Parse vegetable ID and quantity (default qty=1, min=1)
+        if (users == null) {
+            resp.sendRedirect("login.jsp");
+            return;
+        }
+
         int vid = Integer.parseInt(vidStr);
         int qty = 1;
         try {
             if (qtyStr != null) qty = Math.max(1, Integer.parseInt(qtyStr));
         } catch (Exception ignored) {}
 
-        // Fetch product and validate availability
+
         Vegetable veg = productService.getProductById(vid);
         if (veg == null) {
             resp.sendRedirect(req.getHeader("referer") != null ?
@@ -76,19 +82,18 @@ public class AddToCartServlet extends HttpServlet {
             return;
         }
 
-        // Get or initialize session cart
         @SuppressWarnings("unchecked")
         Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
         if (cart == null) {
             cart = new HashMap<>();
         }
 
-        // Update cart: increment existing item or add new item
+
         if (cart.containsKey(vid)) {
             CartItem item = cart.get(vid);
             item.setQuantity(item.getQuantity() + qty);
         } else {
-            // Use discounted price if available, otherwise original price
+
             double unitPrice = veg.getPriceAfterDis() != 0 ?
                     veg.getPriceAfterDis() : veg.getPrice();
             CartItem item = new CartItem(
@@ -101,12 +106,12 @@ public class AddToCartServlet extends HttpServlet {
             cart.put(vid, item);
         }
 
-        // Update session attributes with cart summary
+
         session.setAttribute("cart", cart);
         session.setAttribute("cartCount", CartUtils.getTotalItems(cart));
         session.setAttribute("cartTotal", CartUtils.getCartTotal(cart));
 
-        // Redirect to referring page or fallback
+
         String referer = req.getHeader("referer");
         resp.sendRedirect(referer != null ? referer : "products.jsp");
     }

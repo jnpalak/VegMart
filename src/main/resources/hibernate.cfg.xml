@@ -20,6 +20,7 @@
         <mapping class="com.yash.vegmart.entity.Order" />
         <mapping class="com.yash.vegmart.entity.OrderItem" />
         <mapping class="com.yash.vegmart.entity.Vegetable" />
+        <mapping class="com.yash.vegmart.entity.Payment" />
 
     </session-factory>
 </hibernate-configuration>

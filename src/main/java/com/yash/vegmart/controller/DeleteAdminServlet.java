@@ -37,16 +37,15 @@ public class DeleteAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Parse admin ID from request parameter
         int adminId = Integer.parseInt(req.getParameter("adminId"));
 
         HttpSession session = req.getSession();
         UserService userService = new UserServiceImpl();
 
-        // Fetch and validate admin user
+
         User admin = userService.getUserById(adminId);
         if (admin != null && admin.getUserType().equals("admin")) {
-            // Delete admin and set success message
+
             boolean deleted = userService.deleteAdmin(adminId);
             if (deleted) {
                 session.setAttribute("successAdmin", "Admin deleted successfully!");
@@ -54,11 +53,10 @@ public class DeleteAdminServlet extends HttpServlet {
                 session.setAttribute("errorAdmin", "Unable to delete admin. Try again.");
             }
         } else {
-            // Handle invalid admin selection
+
             session.setAttribute("errorAdmin", "Invalid admin selected!");
         }
 
-        // Redirect to admin management page
         resp.sendRedirect("addAdmin.jsp");
     }
 }

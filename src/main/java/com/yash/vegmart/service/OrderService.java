@@ -2,6 +2,7 @@ package com.yash.vegmart.service;
 
 import com.yash.vegmart.entity.CartItem;
 import com.yash.vegmart.entity.Order;
+import com.yash.vegmart.entity.Payment;
 import com.yash.vegmart.entity.User;
 
 import java.util.List;
@@ -21,12 +22,13 @@ public interface OrderService {
     /**
      * Places a new order for the given user.
      *
-     * @param user The user placing the order.
-     * @param cart A map of cart item IDs to CartItem objects representing the user's shopping cart.
+     * @param user        The user placing the order.
+     * @param cart        A map of cart item IDs to CartItem objects representing the user's shopping cart.
      * @param paymentMode The payment method chosen by the user (e.g., "Credit Card", "Cash").
      * @param totalAmount The total amount payable for the order.
+     * @return
      */
-    void placeOrder(User user, Map<Integer, CartItem> cart, String paymentMode, double totalAmount);
+    Order placeOrder(User user, Map<Integer, CartItem> cart, String paymentMode, double totalAmount);
 
     /**
      * Retrieves a list of all orders in the system.
@@ -59,4 +61,6 @@ public interface OrderService {
      * @return true if the update was successful; false otherwise.
      */
     boolean updateOrderStatus(int orderId, String status);
+
+    void savePayment(Payment payment);
 }

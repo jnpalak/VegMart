@@ -28,24 +28,24 @@
             <!-- LEFT ITEMS -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.jsp">
+                    <a class="nav-link" style="color:black;" href="index.jsp">
                         <i class="bi bi-house-door-fill"></i> Home
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="allproducts">Vegetables</a>
+                    <a class="nav-link" style="color:black;" href="allproducts">Vegetables</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="about.jsp">About</a>
+                    <a class="nav-link" style="color:black;" href="about.jsp">About</a>
                 </li>
             </ul>
 
             <!-- SEARCH -->
             <form action="searchProducts" method="get" class="d-flex me-3">
                 <input class="form-control form-control-sm"
-                       style="width:300px" name="keyword"
+                       style="width:300px;" name="keyword"
                        placeholder="Search vegetables...">
             </form>
 
@@ -68,8 +68,8 @@
                    if (user == null) {
                %>
 
-                   <a href="login.jsp" class="btn btn-outline-success btn-sm me-2 px-3">Login</a>
-                   <a href="register.jsp" class="btn btn-outline-success btn-sm  me-2px-3">Sign Up</a>
+                   <a  href="login.jsp" class="btn btn-outline-success btn-sm me-2 px-3">Login</a>
+                   <a  href="register.jsp" class="btn btn-outline-success btn-sm  me-2px-3">Sign Up</a>
 
                <%
                    } else if (user.getUserType().equals("admin")) {
@@ -82,6 +82,7 @@
 
                    <ul class="dropdown-menu dropdown-menu-end">
                        <li><a class="dropdown-item" href="admin.jsp">Admin Dashboard</a></li>
+                       <li><a class="dropdown-item" href="password.jsp">Settings</a></li>
                        <li><hr class="dropdown-divider"></li>
                        <li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
                    </ul>
@@ -99,6 +100,7 @@
                    <ul class="dropdown-menu dropdown-menu-end">
                        <li><a class="dropdown-item" href="profile.jsp">My Profile</a></li>
                        <li><a class="dropdown-item" href="orders.jsp">My Orders</a></li>
+                       <li><a class="dropdown-item" href="password.jsp">Settings</a></li>
                        <li><hr class="dropdown-divider"></li>
                        <li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
                    </ul>

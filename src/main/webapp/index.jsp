@@ -15,8 +15,9 @@
 
     <style>
         body {
-            background: #eaffea;
+            background: #eaffea; 
             font-family: 'Segoe UI', sans-serif;
+
         }
 
         /* HERO BANNER */
@@ -95,13 +96,10 @@
            font-weight: bold;
 
        }
-
-
-
     </style>
 </head>
 
-<body>
+<body font-family>
 
 <!-- HEADER -->
 <%@ include file="components/common/header.jsp" %>

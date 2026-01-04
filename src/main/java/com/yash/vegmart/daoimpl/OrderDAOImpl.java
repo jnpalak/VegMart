@@ -68,33 +68,27 @@ public class OrderDAOImpl implements OrderDAO {
 
     }
     @Override
-    public void placeOrder(User user, Map<Integer, CartItem> cart, String paymentMode, double totalAmount) {
+    public Order placeOrder(User user, Map<Integer, CartItem> cart, String paymentMode, double totalAmount) {
 
         Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Order order = new Order();
+        Session session=null;
+        try
+        {
+            session = HibernateUtil.getSessionFactory().openSession();
             tx = session.beginTransaction();
-            //  Create Order
-            Order order = new Order();
             order.setUser(user);
             order.setOrderDate(new Date());
             order.setTotalAmount(totalAmount);
             order.setPaymentMode(paymentMode);
-
-            if(paymentMode.equals("ONLINE"))
-            {
-                order.setStatus("Order Processing");
-
-            }
-            else {
-                order.setStatus("Order processing");
-            }
+            order.setStatus("Order Processing");
             session.save(order);
-            //  For each cart item  = save order items + reduce stock
+
             for (CartItem ci : cart.values()) {
-                // Fetch the vegetable from DB
+
                 Vegetable veg = session.get(Vegetable.class, ci.getVegetableId());
                 if (veg != null) {
-                    // Check stock BEFORE reducing
+
                     if (veg.getQuantityInStock() < ci.getQuantity()) {
                         throw new RuntimeException("Not enough stock for: " + veg.getName());
                     }
@@ -110,14 +104,34 @@ public class OrderDAOImpl implements OrderDAO {
                 }
             }
             tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
         }
-
+        catch (Exception e)
+        {
+            if (tx != null)tx.rollback();
+            throw e;
+        }
+        finally {
+            if (session != null) session.close();
+        }
+        return order;
     }
 
-
-
+    @Override
+    public void savePayment(Payment payment)
+    {
+        Transaction tx = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            tx = session.beginTransaction();
+            session.save(payment);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
 }
 

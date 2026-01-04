@@ -52,7 +52,7 @@ public class AddProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Extract and parse form parameters
+
         String pName = req.getParameter("proTitle");
         String pDescription = req.getParameter("proDescription");
         int pOption = Integer.parseInt(req.getParameter("categoryOption"));
@@ -60,11 +60,11 @@ public class AddProductServlet extends HttpServlet {
         int pStock = Integer.parseInt(req.getParameter("proStock"));
         int pDiscount = Integer.parseInt(req.getParameter("proDis"));
 
-        // Get file part and filename
+
         Part part = req.getPart("pPic");
         String fileName = part.getSubmittedFileName();
 
-        // Create vegetable entity and set properties
+
         Vegetable veg = new Vegetable();
         veg.setName(pName);
         veg.setDescription(pDescription);
@@ -73,19 +73,19 @@ public class AddProductServlet extends HttpServlet {
         veg.setQuantityInStock(pStock);
         veg.setpImage(fileName);
 
-        // Fetch category and associate with product
+
         Category category = proService.getcategoryById(pOption);
         veg.setCategory(category);
 
-        // Save product to database
+
         boolean saved = proService.saveProduct(veg);
 
-        // Upload product image to Products/img directory
+
         String path = req.getRealPath("img") + File.separator + "Products" + File.separator + fileName;
         try (FileOutputStream fos = new FileOutputStream(path);
              InputStream is = part.getInputStream()) {
 
-            // Read and write file data
+
             byte[] data = new byte[is.available()];
             is.read(data);
             fos.write(data);
@@ -93,7 +93,7 @@ public class AddProductServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // Set session message and redirect
+
         HttpSession session = req.getSession();
         if (saved) {
             session.setAttribute("proMsg", "Product Added Successfully!");

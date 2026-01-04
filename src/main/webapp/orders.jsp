@@ -3,6 +3,7 @@
 <%@ page import="com.yash.vegmart.service.OrderService" %>
 <%@ page import="com.yash.vegmart.serviceimpl.OrderServiceImpl" %>
 
+
 <%
     User u5 = (User) session.getAttribute("userObj");
     if (u5 == null) {
@@ -71,7 +72,7 @@ for (Order o : list) {
 
     <td> &#8377; <%= oi.getVegetable().getPrice() * oi.getQuantity() %></td>
 
-    <td><%= o.getStatus().contains("Online")?"Card payment" : "COD" %></td>
+    <td><%= o.getPaymentMode() %></td>
 
     <td><%= o.getStatus() %></td>
 </tr>

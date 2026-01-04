@@ -115,7 +115,7 @@ for (Order o : list) {
     </div>
     <% } %>
     </td>
-    <td><%= o.getStatus().contains("Online")?"Card payment" : "COD" %></td>
+    <td><%= o.getPaymentMode() %></td>
 
     <td>
 <% String st = o.getStatus();

@@ -22,8 +22,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
 
-    public void placeOrder(User user, Map<Integer, CartItem> cart, String paymentMode, double totalAmount) {
-        orderDAO.placeOrder(user,cart,paymentMode,totalAmount);
+    public Order placeOrder(User user, Map<Integer, CartItem> cart, String paymentMode, double totalAmount) {
+        return orderDAO.placeOrder(user,cart,paymentMode,totalAmount);
     }
     @Override
     public List<Order> getAllOrders()
@@ -44,6 +44,11 @@ public class OrderServiceImpl implements OrderService {
     public boolean updateOrderStatus(int orderId, String status)
     {
         return orderDAO.updateOrderStatus(orderId,status);
+    }
+    @Override
+    public void savePayment(Payment payment)
+    {
+        orderDAO.savePayment(payment);
     }
 }
 

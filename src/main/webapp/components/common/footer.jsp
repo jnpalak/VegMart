@@ -1,5 +1,5 @@
     <!-- FOOTER -->
-    <footer>
+    <footer class="mt-auto">
         <div style="background:#2e8b57; padding:25px 0; margin-top:40px;">
             <div class="container">
 

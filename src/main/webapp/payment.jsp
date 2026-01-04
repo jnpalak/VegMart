@@ -1,96 +1,101 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.yash.vegmart.entity.User" %>
+
 <%
+    User user = (User) session.getAttribute("userObj");
+    Integer razorpayAmount = (Integer) session.getAttribute("razorpayAmount");
 
-    Double amount = (Double) session.getAttribute("amountToPay");
-
-    if (amount == null) {
-
+    if (user == null || razorpayAmount == null) {
         response.sendRedirect("index.jsp");
-
         return;
-
     }
-
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Payment | VegMart</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<title>Pay Online | VegMart</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <style>
-
-    body {
-
-      background: #eaffea !important;
-
-    }
-
-    .payment-box {
-
-        width: 420px;
-
-        background: white;
-
-        margin: 60px auto;
-
-        padding: 25px;
-
-        border-radius: 16px;
-
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-
-    }
-
-    .btn-pay {
-
-        background: #1877f2;
-
-        color: white;
-
-        font-size: 18px;
-
-        width: 100%;
-
-    }
+body {
+    background:#eaffea;
+    font-family:Segoe UI;
+}
+.pay-box {
+    width:400px;
+    margin:120px auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+.btn-pay {
+    background:#2e7d32;
+    color:white;
+    padding:12px 20px;
+    border:none;
+    width:100%;
+    font-size:18px;
+}
 </style>
 </head>
+
 <body>
 
-<div class="payment-box">
-<h3 class="text-center mb-3">PAYMENT DETAILS</h3>
+<div class="pay-box">
+<h3>Complete Payment</h3>
+<p>Secure payment powered by Razorpay</p>
 
-<form action="PaymentSuccessServlet" method="post">
-
-    <label class="form-label">Card Number</label>
-<input type="text" class="form-control mb-3" placeholder="1234 5678 9000 1234" required>
-
-    <div class="row">
-<div class="col-md-6">
-<label class="form-label">EXP. DATE</label>
-<input type="text" class="form-control mb-3" placeholder="03/2025" required>
-</div>
-<div class="col-md-6">
-<label class="form-label">CVV</label>
-<input type="password" class="form-control mb-3" placeholder="123" required>
-</div>
+<button class="btn-pay" onclick="payNow()">Pay Now</button>
 </div>
 
-    <label class="form-label">Name on Card</label>
-<input type="text" class="form-control mb-3" required>
+<script>
+function payNow() {
 
-    <label class="form-label fw-bold">TOTAL AMOUNT</label>
-<input type="text" class="form-control mb-3" value="<%= amount %>" readonly>
+    var options = {
+        "key": "rzp_test_RwynRhSsnQlugi",
+        "amount": "<%= razorpayAmount %>",
+        "currency": "INR",
+        "name": "VegMart",
+        "description": "Vegetable Purchase",
+        "handler": function (response) {
 
-    <button class="btn btn-pay">PAY NOW</button>
-    <div class="text-center mt-4">
-    <a href="javascript:history.back()" class="btn btn-outline-success px-4"> Back </a>
-    </div>
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "PaymentSuccessServlet";
 
-</form>
+            var fields = {
+                razorpay_payment_ id: response.razorpay_payment_id
+            };
 
-</div>
+            for (var key in fields) {
+                var input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = fields[key];
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+        "prefill": {
+            "name": "<%= user.getName() %>",
+            "email": "<%= user.getEmail() %>",
+            "contact": "<%= user.getMobile() %>"
+        },
+        "theme": {
+            "color": "#2e7d32"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+}
+</script>
 
 </body>
 </html>
-

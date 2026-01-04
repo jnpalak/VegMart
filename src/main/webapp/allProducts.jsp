@@ -166,18 +166,40 @@
           <!-- BUTTON SECTION -->
       <div class="d-flex justify-content-between mt-3">
 
-              <% if (veg.getQuantityInStock() <= 0) { %>
+              <%
 
-                  <button class="btn disabled-btn btn-sm w-50 me-2 btn-fixed">Add to Cart</button>
+              User userr = (User) session.getAttribute("userObj");
+
+              %>
+
+              <% if (userr == null) { %>
+
+                  <a href="login.jsp"
+
+                     class="btn disabled-btn btn-sm w-50 me-2 btn-fixed">
+
+                      Add to Cart
+              </a>
+
+              <% } else if (veg.getQuantityInStock() <= 0) { %>
+
+                  <button class="btn disabled-btn btn-sm w-50 me-2 btn-fixed">
+
+                      Add to Cart
+              </button>
 
               <% } else { %>
 
                   <a href="AddToCartServlet?vid=<%= veg.getVegetableId() %>"
+
                      class="btn cart-btn btn-sm w-50 me-2 btn-fixed">
+
                       Add to Cart
-      </a>
+              </a>
 
               <% } %>
+
+
 
               <button class="btn price-btn btn-sm w-50 btn-fixed">
                   ₹<%= veg.getPriceAfterDis() %>/-

@@ -47,19 +47,19 @@ public class AddCategoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Extract form parameters and file part
+
         String name = req.getParameter("catTitle");
         String description = req.getParameter("catDescription");
         Part part = req.getPart("cImage");
         String fileName = part.getSubmittedFileName();
 
-        // Create category entity with metadata
+
         Category category = new Category();
         category.setCategoryName(name);
         category.setCategoryDescription(description);
         category.setcImage(fileName);
 
-        // Construct upload path and save image file
+
         String path = req.getRealPath("img") + File.separator + fileName;
         try (FileOutputStream fos = new FileOutputStream(path);
              InputStream is = part.getInputStream()) {
@@ -73,7 +73,7 @@ public class AddCategoryServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        // Save category to database and set session message
+
         HttpSession session = req.getSession();
         boolean success = categoryService.addCategory(category);
         if (success) {

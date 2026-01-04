@@ -35,7 +35,6 @@ public class AddAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Extract form parameters
         String name = req.getParameter("name");
         String mobile = req.getParameter("mobile");
         String email = req.getParameter("email");
@@ -52,16 +51,14 @@ public class AddAdminServlet extends HttpServlet {
             return;
         }
 
-        // Create new admin user with default values
         User admin = new User();
         admin.setName(name);
         admin.setMobile(mobile);
         admin.setEmail(email);
         admin.setPassword(password);
-        admin.setAddress("N/A");   // default address
+        admin.setAddress("N/A");
         admin.setUserType("admin");
 
-        // Save admin and handle response
         Integer id = userService.save(admin);
         if (id != null && id > 0) {
             session.setAttribute("success", "Admin added successfully!");

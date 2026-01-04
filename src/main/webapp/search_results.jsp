@@ -12,7 +12,7 @@
 %>
 
 <%@ include file="components/common/header.jsp" %>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 
     body { background: #eaffea; }
@@ -105,6 +105,14 @@
 
     }
 
+    .btn-fixed
+    {
+     height: 45px;
+     display : flex;
+     align-items:center;
+     justify-content:center;
+     white-space:nowrap;
+     }
     .disabled-btn {
 
         background: #9e9e9e !important;
@@ -116,6 +124,7 @@
         border: none;
 
     }
+
 
     .discount-label {
 
@@ -183,35 +192,38 @@
                 <!-- Buttons -->
 <div class="d-flex justify-content-between mt-3">
 
-                    <% if (veg.getQuantityInStock() <= 0) { %>
+    <% User usser = (User) session.getAttribute("userObj"); %>
 
-                        <button class="btn disabled-btn btn-sm w-50 me-2">Add to Cart</button>
+    <% if (usser == null) { %>
 
-                    <% } else { %>
-
-                        <a href="AddToCartServlet?vid=<%= veg.getVegetableId() %>"
-
-                           class="btn cart-btn btn-sm w-50 me-2">
-
-                            Add to Cart
+        <!-- LEFT BUTTON (LOGIN REQUIRED) -->
+<a href="login.jsp"
+           class="btn disabled-btn btn-sm w-50 me-2 btn-fixed">
+            Add to Cart
 </a>
 
-                    <% } %>
+    <% } else { %>
 
-                    <button class="btn price-btn btn-sm w-50">
+        <!-- LEFT BUTTON (ADD TO CART) -->
+<a href="AddToCartServlet?vid=<%= veg.getVegetableId() %>"
+           class="btn cart-btn btn-sm w-50 me-2 btn-fixed">
+            Add to Cart
+</a>
 
-                        ₹<%= veg.getPriceAfterDis() %>/-
+    <% } %>
+
+    <!-- RIGHT BUTTON (PRICE - ALWAYS SAME) -->
+<button class="btn price-btn btn-sm w-50 btn-fixed">
+        ₹<%= veg.getPriceAfterDis() %>/-
 <span class="discount-label" style="text-decoration: line-through;">
-
-                            ₹<%= veg.getPrice() %>
+            ₹<%= veg.getPrice() %>
 </span>
 <span class="discount-label">
 <%= veg.getDiscount() %>% off
 </span>
 </button>
 
-                </div>
-
+</div>
             </div>
 </div>
 

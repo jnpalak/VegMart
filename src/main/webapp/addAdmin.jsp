@@ -5,14 +5,12 @@
 <%@ page import="com.yash.vegmart.serviceimpl.UserServiceImpl" %>
 
 <%
-
     User admin = (User) session.getAttribute("userObj");
     if (admin == null || !"admin".equals(admin.getUserType())) {
         session.setAttribute("msg", "Access Denied!");
         response.sendRedirect("login.jsp");
         return;
     }
-
 %>
 <%
 

@@ -60,51 +60,42 @@ public class PlaceOrderServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = req.getSession();
-
-        // Retrieve user and cart from session
         User user = (User) session.getAttribute("userObj");
         @SuppressWarnings("unchecked")
         Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
-
-        // Validate authenticated user and non-empty cart
         if (user == null || cart == null || cart.isEmpty()) {
             resp.sendRedirect("login.jsp");
             return;
         }
 
-        // Read selected payment mode
         String mode = req.getParameter("paymentMode");
         System.out.println(mode);
 
-        // Calculate cart amount (sum of line totals)
+
         double amount = 0;
         for (CartItem ci : cart.values()) {
             amount += ci.getTotalPrice();
         }
 
-        // Calculate shipping and tax
+
         double shipping = (amount > 500) ? 0 : 40;
         double tax = amount * 0.05;
         double totalAmount = amount + shipping + tax;
 
         OrderService os = new OrderServiceImpl();
 
-        // ONLINE payment: redirect to payment page first
+
         if ("ONLINE".equals(mode)) {
+            int razorpayAmount=(int) (totalAmount*100);
             session.setAttribute("amountToPay", totalAmount);
+            session.setAttribute("razorpayAmount", razorpayAmount);
             session.setAttribute("cart", cart);
             resp.sendRedirect("payment.jsp");
             return;
         }
-
-        // Other payment modes: place order immediately
         session.setAttribute("lastPaymentMode", mode);
         os.placeOrder(user, cart, mode, totalAmount);
-
-        // Clear cart after successful order placement
         session.removeAttribute("cart");
-
-        // Redirect to thank you page
         resp.sendRedirect("thankyou.jsp");
     }
 }

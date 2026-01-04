@@ -152,42 +152,9 @@
 
 <div class="main-container">
 
-    <div class="row g-4 align-items-stretch">
-<!-- LEFT: CHANGE PASSWORD -->
-<div class="col-md-4">
-<div class="card-box card-small">
-
-        <h5 class="section-title">Change Password</h5>
-
-        <form action="ChangePasswordServlet" method="post">
-
-            <div class="mb-3">
-<label class="form-label">Old Password</label>
-<input type="password" class="form-control" name="oldPassword" required>
-</div>
-
-            <div class="mb-3">
-<label class="form-label">New Password</label>
-<input type="password" class="form-control" name="newPassword" required>
-</div>
-
-            <button class="btn btn-success w-100">Change Password</button>
-
-        </form>
-
-        <!-- FIXED BACK BUTTON POSITION -->
-<div class="text-center mt-3">
-<a href="javascript:history.back()" class="btn btn-outline-success px-4">Back</a>
-</div>
-
-    </div>
-</div>
-
-
-
-
+    <div class="row justify-content-center">
         <!-- RIGHT: PROFILE DETAILS -->
-<div class="col-md-8">
+<div class="col-md-8 col-lg-6">
 <div class="card-box h-100">
 
                 <!-- PROFILE ICON INSIDE THIS CARD ONLY -->
