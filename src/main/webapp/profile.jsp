@@ -190,6 +190,9 @@
 </div>
 
                     <button class="btn btn-success w-100">Update Profile</button>
+                    <div class="text-center mt-4">
+                    <a href="javascript:history.back()" class="btn btn-outline-success px-4"> Back </a>
+                    </div>
 </form>
 
             </div>
