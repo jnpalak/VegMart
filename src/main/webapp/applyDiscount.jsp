@@ -122,7 +122,7 @@
 </form>
 
 </div>
-
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
 
