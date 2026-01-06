@@ -9,7 +9,7 @@
 
     <style>
         body {
-            background: #eaffea;
+            background: #eaffea !important;
             font-family: 'Segoe UI', sans-serif;
         }
 
@@ -29,7 +29,7 @@
         }
 
         .btn-retry {
-            background: #dc3545;
+            background: #b02a37;
             color: white;
             font-weight: 600;
         }
@@ -47,7 +47,7 @@
 </head>
 
 <body>
-
+<%@ include file="components/common/header.jsp" %>
 <div class="fail-box">
 <div class="fail-icon"></div>
 
@@ -68,7 +68,7 @@
 </a>
 </div>
 </div>
-
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
 <script>
