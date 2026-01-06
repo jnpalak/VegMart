@@ -2,10 +2,10 @@
 <%@ page import="com.yash.vegmart.entity.User" %>
 
 <%
-    User user = (User) session.getAttribute("userObj");
+    User user5 = (User) session.getAttribute("userObj");
     Integer razorpayAmount = (Integer) session.getAttribute("razorpayAmount");
 
-    if (user == null || razorpayAmount == null) {
+    if (user5 == null || razorpayAmount == null) {
         response.sendRedirect("index.jsp");
         return;
     }
@@ -17,10 +17,9 @@
 <title>Pay Online | VegMart</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 <style>
 body {
-    background:#eaffea;
+    background:#eaffea !important;
     font-family:Segoe UI;
 }
 .pay-box {
@@ -44,7 +43,7 @@ body {
 </head>
 
 <body>
-
+<%@ include file="components/common/header.jsp" %>
 <div class="pay-box">
 <h3>Complete Payment</h3>
 <p>Secure payment powered by Razorpay</p>
@@ -68,7 +67,7 @@ function payNow() {
             form.action = "PaymentSuccessServlet";
 
             var fields = {
-                razorpay_payment_ id: response.razorpay_payment_id
+                razorpay_payment_id: response.razorpay_payment_id
             };
 
             for (var key in fields) {
@@ -96,6 +95,6 @@ function payNow() {
     rzp.open();
 }
 </script>
-
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
