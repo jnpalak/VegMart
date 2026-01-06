@@ -43,14 +43,10 @@
                 <button class="btn btn-success w-100 fw-bold">
                     Update Password
 </button>
+<div class="text-center mt-3">
+                    <a href="javascript:history.back()" class="btn btn-outline-success px-3"> Back </a>
+                    </div>
 </form>
-
-            <div class="text-center mt-3">
-<a href="profile.jsp" class="btn btn-outline-success btn-sm">
-                    Back to Profile
-</a>
-</div>
-
         </div>
 </div>
 </main>
