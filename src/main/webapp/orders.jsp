@@ -87,6 +87,6 @@ for (Order o : list) {
 </div>
 </div>
 </div>
-
+<%@ include file="components/common/footer.jsp" %>
 </body>
 </html>
