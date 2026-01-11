@@ -158,7 +158,9 @@ for (Order o : list) {
 </tbody>
 </table>
 <div class="text-center mt-4">
-<a href="javascript:history.back()" class="btn btn-outline-success px-4"> Back </a>
+<a href="javascript:history.back()" class="btn btn-outline-success px-4"> Back </a>     <a href="DownloadOrdersExcel" class="btn btn-success">
+                                                                                            Download Orders (Excel)
+                                                                                        </a>
 </div>
 </div>
 </div>
