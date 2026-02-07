@@ -133,5 +133,12 @@ public class OrderDAOImpl implements OrderDAO {
             if (session != null) session.close();
         }
     }
+    @Override
+    public Order getOrderById(int orderId)
+    {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Order.class,orderId);
+        }
+    }
 }
 
