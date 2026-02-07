@@ -82,6 +82,7 @@
 
                    <ul class="dropdown-menu dropdown-menu-end">
                        <li><a class="dropdown-item" href="admin.jsp">Admin Dashboard</a></li>
+                       <li><a class="dropdown-item" href="profile.jsp">My Profile</a></li>
                        <li><a class="dropdown-item" href="password.jsp">Settings</a></li>
                        <li><hr class="dropdown-divider"></li>
                        <li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
