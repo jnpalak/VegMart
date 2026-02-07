@@ -50,5 +50,11 @@ public class OrderServiceImpl implements OrderService {
     {
         orderDAO.savePayment(payment);
     }
+
+    @Override
+    public Order getOrderById(int orderId)
+    {
+        return orderDAO.getOrderById(orderId);
+    }
 }
 
