@@ -1,9 +1,11 @@
 package com.yash.vegmart.controller;
 
 import com.yash.vegmart.entity.CartItem;
+import com.yash.vegmart.entity.Order;
 import com.yash.vegmart.entity.User;
 import com.yash.vegmart.service.OrderService;
 import com.yash.vegmart.serviceimpl.OrderServiceImpl;
+import com.yash.vegmart.utilities.EmailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -78,14 +80,15 @@ public class PlaceOrderServlet extends HttpServlet {
         }
 
 
-        double shipping = (amount > 500) ? 0 : 40;
+        double shipping = (amount > 500) ? 0 : 50;
         double tax = amount * 0.05;
         double totalAmount = amount + shipping + tax;
 
         OrderService os = new OrderServiceImpl();
 
 
-        if ("ONLINE".equals(mode)) {
+        if ("ONLINE".equals(mode))
+        {
             int razorpayAmount=(int) (totalAmount*100);
             session.setAttribute("amountToPay", totalAmount);
             session.setAttribute("razorpayAmount", razorpayAmount);
@@ -95,6 +98,18 @@ public class PlaceOrderServlet extends HttpServlet {
         }
         session.setAttribute("lastPaymentMode", mode);
         os.placeOrder(user, cart, mode, totalAmount);
+
+        String subject = "VegMart - Order Placed Successfully";
+        String message =
+                "Hello " + user.getName() + ",\n\n" +
+                        "Your order has been placed successfully.\n\n" +
+                        "Total Amount: ₹" + totalAmount + "\n" +
+                        "Payment Mode: " + mode + "\n\n" +
+                        "You will receive another email once your order is delivered.\n\n" +
+                        "Thank you for shopping with VegMart!\n\n" +
+                        "Regards,\nVegMart Team";
+
+        EmailUtil.sendEmail(user.getEmail(), subject, message);
         session.removeAttribute("cart");
         resp.sendRedirect("thankyou.jsp");
     }

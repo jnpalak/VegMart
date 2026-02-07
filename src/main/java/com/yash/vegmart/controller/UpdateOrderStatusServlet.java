@@ -1,7 +1,10 @@
 package com.yash.vegmart.controller;
-
+import com.yash.vegmart.entity.CartItem;
+import com.yash.vegmart.entity.Order;
+import com.yash.vegmart.entity.User;
 import com.yash.vegmart.service.OrderService;
 import com.yash.vegmart.serviceimpl.OrderServiceImpl;
+import com.yash.vegmart.utilities.EmailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,6 +61,21 @@ public class UpdateOrderStatusServlet extends HttpServlet {
             HttpSession session = req.getSession();
             if (updated) {
                 session.setAttribute("msg", "Order status updated successfully!");
+                if ("Order Delivered".equalsIgnoreCase(newStatus))
+                {
+                    Order order = os.getOrderById(orderId);
+                    User user = order.getUser();
+                    String subject = "VegMart - Your Order Has Been Delivered";
+                    String message =
+                            "Hello " + user.getName() + ",\n\n" +
+                                    "Your order has been successfully delivered.\n\n" +
+                                    "Order ID: PROD-ORD-00" + orderId + "\n" +
+                                    "Total Amount: ₹" + order.getTotalAmount() + "\n\n" +
+                                    "Thank you for shopping with VegMart.\n" +
+                                    "We hope to serve you again soon!\n\n" +
+                                    "Regards,\nVegMart Team";
+                    EmailUtil.sendEmail(user.getEmail(), subject, message);
+                }
             } else {
                 session.setAttribute("msg", "Failed to update order status!");
             }
