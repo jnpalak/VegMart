@@ -15,4 +15,5 @@ public interface OrderDAO {
     boolean updateOrderStatus(int orderId, String status);
     void savePayment(Payment payment);
     Order placeOrder(User user, Map<Integer, CartItem> cart, String paymentMode, double totalAmount);
+    Order getOrderById(int orderId);
 }
