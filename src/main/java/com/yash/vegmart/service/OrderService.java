@@ -63,4 +63,6 @@ public interface OrderService {
     boolean updateOrderStatus(int orderId, String status);
 
     void savePayment(Payment payment);
+
+    Order getOrderById(int orderId);
 }
