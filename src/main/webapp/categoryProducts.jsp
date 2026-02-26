@@ -235,13 +235,13 @@
               </a>
 
               <% } %>
-                          <button class="btn price-btn btn-sm w-50">
+                          <button class="btn price-btn btn-sm w-50 btn-fixed">
                               &#8377;<%= veg.getPriceAfterDis() %>/-
                               <span class="discount-label" style="text-decoration: line-through;">
-                                  &#8377;<%= veg.getPrice() %><br>
+                                  &#8377;<%= veg.getPrice() %>
                               </span>
                               <span class="discount-label">
-                                   <%= veg.getDiscount() %>% off
+                                  <%= veg.getDiscount() %>% off
                               </span>
                           </button>
                       </div>
